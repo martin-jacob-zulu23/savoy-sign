@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savoy Hotel Signature Generator</title>
+  
+  <!-- Import Google Font: Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #0b0c10;
+      color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .app-container {
+      background-color: #141622;
+      border: 1px solid #232738;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 960px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: 0.2px;
+    }
+
+    p.subtitle {
+      font-size: 13px;
+      color: #8b949e;
+      margin-bottom: 24px;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #a0aab8;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 14px;
+      background-color: #1b1e2e;
+      border: 1px solid #2e344a;
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #3b82f6;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Preview Section */
+    .preview-header {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #a0aab8;
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+
+    .preview-box {
+      background-color: #08090d;
+      padding: 32px;
+      border-radius: 10px;
+      border: 1px dashed #2e344a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    /* Action Buttons */
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, background-color 0.2s;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: #10b981;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* APP UI RESPONSIVENESS & EMAIL RESPONSIVE BREAKPOINT */
+    @media screen and (max-width: 680px) {
+      body {
+        padding: 12px;
+      }
+
+      .app-container {
+        padding: 20px 16px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .preview-box {
+        padding: 16px 12px;
+      }
+
+      /* Responsive Signature Stacking Rules for Mobile */
+      .sig-table {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .sig-col-logo {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+      }
+
+      .sig-col-logo img {
+        margin: 0 auto !important;
+        max-width: 100% !important;
+      }
+
+      .sig-col-details {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 24px 20px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <h1>Savoy Hotel Email Signature Generator</h1>
+    <p class="subtitle">Fill in your details below. The live Outlook signature card updates automatically.</p>
+
+    <!-- FORM MODAL / CARD -->
+    <form id="signatureForm" onsubmit="event.preventDefault();">
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="inputName">Full Name</label>
+          <input type="text" id="inputName" value="Trilok k. Bhunjun" placeholder="e.g. Jacob Zulu">
+        </div>
+        <div class="form-group">
+          <label for="inputTitle">Job Title / Position</label>
+          <input type="text" id="inputTitle" value="General Manager" placeholder="e.g. IT Manager">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label for="inputPhone">Work Phone (T:)</label>
+          <input type="text" id="inputPhone" value="+260 96 2555949" placeholder="e.g. +260 96 0000000">
+        </div>
+        <div class="form-group">
+          <label for="inputMobile">Mobile / WhatsApp (W:)</label>
+          <input type="text" id="inputMobile" value="+224 610 00 71 84" placeholder="e.g. +260 97 0000000">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="inputEmail">Email Address (E:)</label>
+        <input type="text" id="inputEmail" value="gm@grandsavoyhotel.com" placeholder="e.g. name@grandsavoyhotel.com">
+      </div>
+    </form>
+
+    <div class="preview-header">Live Outlook Preview</div>
+    
+    <!-- LIVE RENDER CONTAINER -->
+    <div class="preview-box">
+      <div id="signatureContainer" style="width: 100%; display: flex; justify-content: center;"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="copySignature()">Copy Signature for Outlook</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Copied to clipboard! Ready to paste into Outlook.</div>
+
+  <script>
+    // HARDCODED CONSTANTS
+    const STATIC_DATA = {
+      address: "Buteko Ave. Ndola, Copperbelt Zambia",
+      websiteUrl: "https://www.grandsavoyhotel.com",
+      websiteDisplay: "www.grandsavoyhotel.com",
+      logoUrl: "https://martin-jacob-zulu23.github.io/email-image-savoy/sign2.gif"
+    };
+
+    // RENDER FUNCTION FOR EMAIL SIGNATURE
+    function updateSignature() {
+      const name = document.getElementById('inputName').value || "Your Name";
+      const title = document.getElementById('inputTitle').value || "Your Title";
+      const phone = document.getElementById('inputPhone').value || "+260 000 000000";
+      const mobile = document.getElementById('inputMobile').value || "+260 000 000000";
+      const email = document.getElementById('inputEmail').value || "email@grandsavoyhotel.com";
+
+      const signatureHTML = `
+        <table class="sig-table" cellpadding="0" cellspacing="0" border="0" style="background-color: #24365b; font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #ffffff; width: 100%; max-width: 780px; border-radius: 8px; overflow: hidden; border-collapse: collapse;">
+          <tr>
+            <!-- Logo Column (Stacks to full-width top on screens < 680px) -->
+            <td class="sig-col-logo" align="center" valign="middle" style="width: 320px; padding: 0; background-color: #ffffff; vertical-align: middle;">
+              <img src="${STATIC_DATA.logoUrl}" alt="Savoy Hotel" style="display: block; width: 100%; height: auto; max-width: 320px; border: 0;" />
+            </td>
+
+            <!-- Details Column (Stacks directly below logo on screens < 680px) -->
+            <td class="sig-col-details" valign="middle" style="padding: 16px 44px 16px 50px; background-color: #24365b; vertical-align: middle;">
+              <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                
+                <!-- Name -->
+                <tr>
+                  <td style="font-family: 'Quicksand', sans-serif; font-size: 28px; font-weight: 700; color: #ffffff; line-height: 1.2; letter-spacing: 0.8px; padding-bottom: 4px;">
+                    ${name}
+                  </td>
+                </tr>
+                
+                <!-- Job Title -->
+                <tr>
+                  <td style="font-family: 'Quicksand', sans-serif; font-size: 16px; font-weight: 500; color: #94a3b8; line-height: 1.3; letter-spacing: 0.6px; padding-bottom: 16px;">
+                    ${title}
+                  </td>
+                </tr>
+
+                <!-- Contact Details -->
+                <tr>
+                  <td style="font-family: 'Quicksand', sans-serif; font-size: 15px; color: #cbd5e1; line-height: 1.5; letter-spacing: 0.5px;">
+                    <strong style="color: #ffffff; font-weight: 700;">Work:</strong> &nbsp;${phone}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="font-family: 'Quicksand', sans-serif; font-size: 15px; color: #cbd5e1; line-height: 1.5; letter-spacing: 0.5px;">
+                    <strong style="color: #ffffff; font-weight: 700;">Mobile:</strong> &nbsp;${mobile}
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="font-family: 'Quicksand', sans-serif; font-size: 15px; color: #cbd5e1; line-height: 1.5; letter-spacing: 0.5px;">
+                    <strong style="color: #ffffff; font-weight: 700;">Email:</strong> &nbsp;<a href="mailto:${email}" style="color: #cbd5e1; text-decoration: underline; font-weight: 500;">${email}</a>
+                  </td>
+                </tr>
+
+                <!-- Address -->
+                <tr>
+                  <td style="font-family: 'Quicksand', sans-serif; font-size: 15px; font-weight: 500; color: #cbd5e1; line-height: 1.4; letter-spacing: 0.5px; padding-top: 4px; padding-bottom: 16px;">
+                    ${STATIC_DATA.address}
+                  </td>
+                </tr>
+
+                <!-- Website Footer -->
+                <tr>
+                  <td style="font-family: 'Quicksand', sans-serif; font-size: 13px; font-weight: 600; color: #64748b; letter-spacing: 1px;">
+                    <a href="${STATIC_DATA.websiteUrl}" style="color: #64748b; text-decoration: none;">${STATIC_DATA.websiteDisplay}</a>
+                  </td>
+                </tr>
+
+              </table>
+            </td>
+          </tr>
+        </table>
+      `;
+
+      document.getElementById('signatureContainer').innerHTML = signatureHTML;
+    }
+
+    // COPY FUNCTION FOR OUTLOOK
+    function copySignature() {
+      const container = document.getElementById('signatureContainer');
+      const range = document.createRange();
+      range.selectNode(container);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+
+      try {
+        document.execCommand('copy');
+        showToast();
+      } catch (err) {
+        alert("Selection copy failed. Please highlight the signature manually and press Ctrl+C / Cmd+C.");
+      }
+      window.getSelection().removeAllRanges();
+    }
+
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Event Listeners for dynamic inputs
+    document.getElementById('inputName').addEventListener('input', updateSignature);
+    document.getElementById('inputTitle').addEventListener('input', updateSignature);
+    document.getElementById('inputPhone').addEventListener('input', updateSignature);
+    document.getElementById('inputMobile').addEventListener('input', updateSignature);
+    document.getElementById('inputEmail').addEventListener('input', updateSignature);
+
+    // Initial render
+    window.onload = updateSignature;
+  </script>
+</body>
+</html>
